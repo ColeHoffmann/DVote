@@ -44,12 +44,13 @@ contract BankingContract {
         uint256 _constituency
     ) public OnlyAdmin {
         Candidate memory newCandidate = Candidate({
-            name: _name,
-            party: _party,
-            bio: _bio,
+           
             voteCount: 0,
             constituency: _constituency,
             candidateId: candidateCount
+            name: _name,
+            party: _party,
+            bio: _bio,
         });
     }
 }
