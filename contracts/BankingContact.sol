@@ -32,4 +32,17 @@ contract BankingContract {
         uint256 constituency;
         uint256 candidateID;
     }
+
+    mapping(uint256 => Candidate) public candidateDetails;
+
+    //We want it so only addmins can add candidates to the system.
+    function addCandidate(
+        string _name,
+        string _party,
+        string _bio,
+        uint256 _constitency,
+        uint256 _constituency
+    ) public OnlyAdmin {
+        //TODO
+    }
 }
