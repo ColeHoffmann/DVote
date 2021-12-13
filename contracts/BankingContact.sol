@@ -43,8 +43,9 @@ contract BankingContract {
         uint256 _constitency,
         uint256 _constituency
     ) public OnlyAdmin {
-        Candidate memory newCandidate = Candidate({
-           
+        
+        //This creates the new Candidate with the params passed in. 
+        Candidate memory newCandidate = Candidate({  
             voteCount: 0,
             constituency: _constituency,
             candidateId: candidateCount
@@ -52,5 +53,46 @@ contract BankingContract {
             party: _party,
             bio: _bio,
         });
+        //Maps the candidate number to the new candidate. 
+        candidateDetails[candidateCount] = newCandidate;
+        candidateCount += 1;
     }
+
+
+    //Voter struct
+    struct Voter{ 
+        address voterAddress; 
+        string name; 
+        string licenseID; 
+        uint constituency; 
+        bool hasVoted; 
+        bool isVerified; 
+    }
+
+    address[] public voters; 
+    mapping (address => Voter) public voterDetails; 
+
+    //request to be addeds as a voterAddress
+    function requestVoter(string _name, string _aadhar, uint _constituency) public {
+        Voter memory newVoter = Voter({
+        voterAddress : msg.sender,
+        name : _name,
+        aadhar : _aadhar,
+        constituency : _constituency,
+        hasVoted : false,
+        isVerified : false
+    });
+    
+    voterDetails[msg.sender] = newVoter;
+    voters.push(msg.sender);
+    voterCount += 1;
+    }
+
+// get total number of voters
+function getVoterCount() public view returns (uint) {
+   return voterCount;
+}
+
+
+
 }
