@@ -83,6 +83,7 @@ contract BankingContract {
         isVerified : false
     });
     
+    //adding into the array a new Voter.
     voterDetails[msg.sender] = newVoter;
     voters.push(msg.sender);
     voterCount += 1;
