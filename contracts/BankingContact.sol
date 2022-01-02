@@ -1,99 +1,136 @@
 pragma solidity ^0.4.17;
 
-contract BankingContract {
-    //addess of the owner
-    address public owner;
 
-    //counts of the candidates and voters
-    uint256 candidateCount = 0;
-    uint256 voterCount = 0;
-
-    //election starte or ended.
-    bool start = false;
-    bool end = false;
-
-    //return the address of the owner.
-    function getOwner() public view returns (address) {
-        return owner;
-    }
-
-    modifier adminOnly() {
-        require(msg.sender == owner);
-        _;
-    }
-
-    //Struct for a candidate;
-    struct Candidate {
-        //All the things a Candidate would have. Name, party affiliation, bio, voteCount, constituency, candidateID
-        string name;
-        string party;
-        string bio;
-        uint256 voteCount;
-        uint256 constituency;
-        uint256 candidateID;
-    }
-
-    mapping(uint256 => Candidate) public candidateDetails;
-
-    //We want it so only addmins can add candidates to the system.
-    function addCandidate(
-        string _name,
-        string _party,
-        string _bio,
-        uint256 _constitency,
-        uint256 _constituency
-    ) public OnlyAdmin {
-        
-        //This creates the new Candidate with the params passed in. 
-        Candidate memory newCandidate = Candidate({  
-            voteCount: 0,
-            constituency: _constituency,
-            candidateId: candidateCount
-            name: _name,
-            party: _party,
-            bio: _bio,
-        });
-        //Maps the candidate number to the new candidate. 
-        candidateDetails[candidateCount] = newCandidate;
-        candidateCount += 1;
-    }
+contract Voter Contract {
+address public owner;
+uint candidateCount;
+uint voterCount;
+bool start;
+bool end;
 
 
-    //Voter struct
-    struct Voter{ 
-        address voterAddress; 
-        string name; 
-        string licenseID; 
-        uint constituency; 
-        bool hasVoted; 
-        bool isVerified; 
-    }
+// Constructor
+function MasoomContract() public {
+   owner = msg.sender;
+   candidateCount = 0;
+   voterCount = 0;
+   start = false;
+   end = false;
+}
 
-    address[] public voters; 
-    mapping (address => Voter) public voterDetails; 
 
-    //request to be addeds as a voterAddress
-    function requestVoter(string _name, string _aadhar, uint _constituency) public {
-        Voter memory newVoter = Voter({
-        voterAddress : msg.sender,
-        name : _name,
-        aadhar : _aadhar,
-        constituency : _constituency,
-        hasVoted : false,
-        isVerified : false
-    });
-    
-    //adding into the array a new Voter.
-    voterDetails[msg.sender] = newVoter;
-    voters.push(msg.sender);
-    voterCount += 1;
-    }
+//Get the owner
+function getOwner() public view returns(address) {
+   return owner;
+}
+
+
+// Only Admin can access
+modifier onlyAdmin() {
+   require(msg.sender == owner);
+   _;
+}
+
+//candidate struct
+struct Candidate{
+   string name;
+   string party;
+   string manifesto;
+   uint voteCount;
+   uint constituency;
+   uint candidateId;
+}
+
+
+mapping(uint => Candidate) public candidateDetails;
+
+// Only admin can add candidate
+function addCandidate(string _name, string _party, string _manifesto, uint _constituency) public onlyAdmin {
+   Candidate memory newCandidate = Candidate({
+     name : _name,
+     party : _party,
+     manifesto : _manifesto,
+     voteCount : 0,
+     constituency : _constituency,
+     candidateId : candidateCount
+   });
+   candidateDetails[candidateCount] = newCandidate;
+   candidateCount += 1;
+}
+// get total number of candidates
+function getCandidateNumber() public view returns (uint) {
+   return candidateCount;
+}
+
+//voter struct
+struct Voter{
+   address voterAddress;
+   string name;
+   string aadhar;
+   uint constituency;
+   bool hasVoted;
+   bool isVerified;
+}
+
+address[] public voters;
+mapping(address => Voter) public voterDetails;
+// request to be added as voter
+
+//request voter function 
+function requestVoter(string _name, string _aadhar, uint _constituency) public {
+   Voter memory newVoter = Voter({
+     voterAddress : msg.sender,
+     name : _name,
+     aadhar : _aadhar,
+     constituency : _constituency,
+     hasVoted : false,
+     isVerified : false
+   });
+   voterDetails[msg.sender] = newVoter;
+   voters.push(msg.sender);
+   voterCount += 1;
+}
+
 
 // get total number of voters
 function getVoterCount() public view returns (uint) {
    return voterCount;
 }
 
+
+function verifyVoter(address _address) public onlyAdmin {
+   voterDetails[_address].isVerified = true;
+}
+
+//voting functions
+function vote(uint candidateId) public{
+   require(voterDetails[msg.sender].hasVoted == false);
+   require(voterDetails[msg.sender].isVerified == true);
+   require(start == true);
+   require(end == false);
+   candidateDetails[candidateId].voteCount += 1;
+   voterDetails[msg.sender].hasVoted = true;
+}
+
+//
+function startElection() public onlyAdmin {
+   start = true;
+   end = false;
+}
+
+
+function endElection() public onlyAdmin {
+   end = true;
+   start = false;
+}
+
+function getStart() public view returns (bool) {
+   return start;
+}
+
+function getEnd() public view returns (bool) {
+   return end;
+}
 
 
 }
