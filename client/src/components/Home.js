@@ -1,11 +1,16 @@
 import React, { Component } from "react";
-import SimpleStorageContract from "./contracts/SimpleStorage.json";
 import getWeb3 from "./getWeb3";
+import VotingContract from ".contracts/VotingContract.json";
 
 import "./App.css";
 
-class App extends Component {
-  state = { storageValue: 0, web3: null, accounts: null, contract: null };
+class Home extends Component {
+  state = {
+           VotingInstance: undefined,
+           web3: null,
+           accounts: null,
+           isOwner: false 
+          };
 
   componentDidMount = async () => {
     try {
@@ -70,4 +75,4 @@ class App extends Component {
   }
 }
 
-export default App;
+export default Home;
