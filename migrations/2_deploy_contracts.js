@@ -1,5 +1,4 @@
-var SimpleStorage = artifacts.require("./SimpleStorage.sol");
-
+var VotingContract = artifacts.require("./VotingContract.sol");
 module.exports = function(deployer) {
-  deployer.deploy(SimpleStorage);
+deployer.deploy(VotingContract);
 };

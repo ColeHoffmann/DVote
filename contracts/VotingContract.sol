@@ -1,7 +1,7 @@
 pragma solidity ^0.4.17;
 
 
-contract Voter Contract {
+contract VotingContract {
 address public owner;
 uint candidateCount;
 uint voterCount;
