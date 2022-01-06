@@ -66,6 +66,7 @@ class Home extends Component {
     this.setState({ storageValue: response });
   };
 
+
   render() {
     if (!this.state.web3) {
       return <div>Loading Web3, accounts, and contract...</div>;
@@ -74,6 +75,7 @@ class Home extends Component {
       <div>
           DVote is working.
           <div> Your user address is {this.state.account} </div>
+          <div> Owner address is  </div>
          
 
           {this.state.isOwner ?
