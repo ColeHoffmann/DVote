@@ -74,10 +74,10 @@ class Home extends Component {
     return (
       <div>
           DVote is working.
+         
           <div> Your user address is {this.state.account} </div>
           <div> Owner address is  </div>
          
-
           {this.state.isOwner ?
            <div> Yes you are the owner </div>:
            <div> You are not the owner </div>
