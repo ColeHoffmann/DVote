@@ -5,6 +5,9 @@ class NavigationAdmin extends Component {
     render() {
         return (
             <div className='navbar'>
+                    
+                    //this will be the main navigation bar within our app. 
+                    
                     <div className="Admin">ADMIN</div>
                   
                     <Link to ='/' className ="heading">HOME</Link>
