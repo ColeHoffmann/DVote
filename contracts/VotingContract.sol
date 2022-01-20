@@ -51,6 +51,7 @@ function addCandidate(string _name, string _party, string _manifesto, uint _cons
      name : _name,
      party : _party,
      manifesto : _manifesto,
+     
      voteCount : 0,
      constituency : _constituency,
      candidateId : candidateCount
