@@ -42,6 +42,7 @@ struct Candidate{
 }
 
 
+//created the mapping between number of the candidate and the candidate itself. 
 mapping(uint => Candidate) public candidateDetails;
 
 // Only admin can add candidate
