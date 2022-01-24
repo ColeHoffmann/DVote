@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 import getWeb3 from "../getWeb3";
 import VotingContract from "../contracts/VotingContract.json";
+import NavigationAdmin from '.NavigationAdmin';
+import Navigation from '.Navigation';
 
 
 class Home extends Component {
@@ -72,16 +74,21 @@ class Home extends Component {
       return <div>Loading Web3, accounts, and contract...</div>;
     }
     return (
-      <div>
-          DVote is working.
-         
-          <div> Your user address is {this.state.account} </div>
-          <div> Owner address is  </div>
-         
-          {this.state.isOwner ?
-           <div> Yes you are the owner </div>:
-           <div> You are not the owner </div>
-          } 
+      <div className="App">
+        {/* <div>{this.state.owner}</div> */}
+        {/* <p>Account address - {this.state.account}</p> */}
+        <div className="CandidateDetails">
+          <div className="CandidateDetails-title">
+            <h1>
+              ADMIN PORTAL
+            </h1>
+          </div>
+        </div>
+        {this.state.isOwner ? <NavigationAdmin /> : <Navigation />}
+
+        <div className = "home">
+             Welcome to DVote. A Decentralized voting app built on the Ethereum blockchain.
+        </div>
       
       </div>
     );
